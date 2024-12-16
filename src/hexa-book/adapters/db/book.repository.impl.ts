@@ -5,23 +5,28 @@ import { Book } from '../../domain/book';
 @Injectable()
 export class BookRepositoryImpl implements BookRepositoryPort {
   private books: Book[] = [
-    { id: '1', title: 'Book 1', author: 'Author 1', publishedDate: new Date() },
-    { id: '2', title: 'Book 2', author: 'Author 2', publishedDate: new Date() },
+    { uuid: '1', title: 'Book 1', author: 'Author 1', publishedDate: new Date(), isArchived: false },
+    { uuid: '2', title: 'Book 2', author: 'Author 2', publishedDate: new Date(), isArchived: true },
   ];
 
   async findAll(): Promise<Book[]> {
     return this.books;
   }
 
-  async findById(id: string): Promise<Book | null> {
-    return this.books.find((book) => book.id === id) || null;
+  async findByUuid(uuid: string): Promise<Book | null> {
+    return this.books.find((book) => book.uuid === uuid) || null;
   }
 
-  async save(book: Book): Promise<void> {
+  async findByTitle(title: string): Promise<Book | null> {
+    return this.books.find((book) => book.title === title) || null;
+  }
+
+  async save(book: Book): Promise<Book> {
     this.books.push(book);
+    return book;
   }
 
   async delete(id: string): Promise<void> {
-    this.books = this.books.filter((book) => book.id !== id);
+    this.books = this.books.filter((book) => book.uuid !== id);
   }
 }
