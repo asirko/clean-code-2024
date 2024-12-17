@@ -10,4 +10,12 @@ export class BookServiceImpl implements BookService {
   async findAll(): Promise<Book[]> {
     return this.bookRepository.findAll();
   }
+
+  findById(id: string): Promise<Book> {
+    return this.bookRepository.findById(id);
+  }
+
+  save(book: Omit<Book, 'id'>): Promise<Book> {
+    return this.bookRepository.save(book);
+  }
 }

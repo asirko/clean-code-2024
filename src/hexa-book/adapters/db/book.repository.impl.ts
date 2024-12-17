@@ -17,8 +17,15 @@ export class BookRepositoryImpl implements BookRepositoryPort {
     return this.books.find((book) => book.id === id) || null;
   }
 
-  async save(book: Book): Promise<void> {
-    this.books.push(book);
+  async save(book: Omit<Book, 'id'>): Promise<Book> {
+    let id: string;
+    do {
+      id = Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)).join('');
+    } while (this.books.some((book) => book.id === id));
+
+    const bookWithId = { id, ...book };
+    this.books.push(bookWithId);
+    return bookWithId;
   }
 
   async delete(id: string): Promise<void> {
