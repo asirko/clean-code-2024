@@ -12,10 +12,11 @@ import { NotificationType } from './notification-type.enum';
     NotifierStrategy,
     {
       provide: NOTIFIER_TOKEN,
-      useFactory: (smsService: SmsService, emailService: EmailService) => ({
-        [NotificationType.SMS]: smsService,
-        [NotificationType.EMAIL]: emailService,
-      }),
+      useFactory: (smsService: SmsService, emailService: EmailService) =>
+        ({
+          [NotificationType.SMS]: smsService,
+          [NotificationType.EMAIL]: emailService,
+        }) as { [key in NotificationType]: any },
       inject: [SmsService, EmailService],
     },
   ],
